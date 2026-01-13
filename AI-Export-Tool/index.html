@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Creator Video Studio</title>
+  <meta name="description" content="A web tool that helps creators generate videos and share them to TikTok with user approval." />
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 40px; max-width: 900px; line-height: 1.5; }
+    header { margin-bottom: 18px; }
+    .muted { color: #555; }
+    .box { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 16px 0; }
+    .row { display: flex; gap: 12px; flex-wrap: wrap; }
+    a.btn { display:inline-block; padding: 10px 14px; border-radius: 10px; border: 1px solid #111; background:#111; color:#fff; text-decoration:none; }
+    a.btn.secondary { background:#fff; color:#111; }
+    footer { margin-top: 26px; border-top: 1px solid #eee; padding-top: 14px; font-size: 14px; }
+    ul { margin: 8px 0 0 18px; }
+    code { background:#f6f6f6; padding:2px 6px; border-radius:6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Creator Video Studio</h1>
+    <p class="muted">Generate original videos and share them to TikTok with user approval.</p>
+  </header>
+
+  <div class="box">
+    <h2>End-to-end flow (high level)</h2>
+    <ol>
+      <li><strong>Create</strong> a video inside the tool.</li>
+      <li><strong>Connect</strong> your TikTok account using OAuth (Login Kit).</li>
+      <li><strong>Request upload</strong> for a selected video.</li>
+      <li><strong>Review & publish</strong> inside TikTok (user approval).</li>
+    </ol>
+    <p class="muted">
+      The service never publishes content without the user’s explicit authorization and review step.
+    </p>
+  </div>
+
+  <div class="box">
+    <h2>Start</h2>
+    <div class="row">
+      <a class="btn" href="/connect.html">Connect with TikTok</a>
+      <a class="btn secondary" href="/upload.html">Upload request</a>
+    </div>
+    <p class="muted" style="margin-top:10px;">
+      In a production integration, the Connect step obtains an OAuth access token for the user, and the Upload step
+      sends an upload request for user review in TikTok.
+    </p>
+  </div>
+
+  <div class="box">
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:contact@yourdomain.com">contact@yourdomain.com</a> <span class="muted">(replace with your real email)</span></p>
+  </div>
+
+  <footer>
+    <a href="/terms.html">Terms of Service</a> ·
+    <a href="/privacy.html">Privacy Policy</a>
+  </footer>
+</body>
+</html>
