@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Connect with TikTok</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 40px; max-width: 900px; line-height: 1.5; }
+    .muted { color:#555; }
+    .box { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 16px 0; }
+    a { color: inherit; }
+    button { padding: 10px 14px; border-radius: 10px; border: 1px solid #111; background:#111; color:#fff; cursor:pointer; }
+    button:disabled { opacity:.55; cursor:not-allowed; }
+    footer { margin-top: 26px; border-top: 1px solid #eee; padding-top: 14px; font-size: 14px; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; }
+    a.btn { display:inline-block; padding: 10px 14px; border-radius: 10px; border: 1px solid #111; text-decoration:none; }
+    a.btn.secondary { background:#fff; }
+  </style>
+</head>
+<body>
+  <h1>Connect with TikTok</h1>
+  <p class="muted">
+    This step uses TikTok Login Kit (OAuth). The user explicitly authorizes the app to access only the approved scopes.
+  </p>
+
+  <div class="box">
+    <h2>What the user authorizes</h2>
+    <ul>
+      <li>Basic account identification (e.g., <strong>user.info.basic</strong>)</li>
+      <li>Upload capability for the user’s own account (e.g., <strong>video.upload</strong>)</li>
+    </ul>
+    <p class="muted">
+      The app does not publish content without the user’s explicit action and review inside TikTok.
+    </p>
+  </div>
+
+  <div class="box">
+    <h2>Connect</h2>
+    <p class="muted">
+      Demo button (placeholder). In production, this would redirect to TikTok’s OAuth consent screen.
+    </p>
+    <button id="connectBtn">Connect with TikTok (Demo)</button>
+    <p id="status" class="muted" style="margin-top:10px;"></p>
+
+    <script>
+      const btn = document.getElementById('connectBtn');
+      const statusEl = document.getElementById('status');
+      btn.addEventListener('click', () => {
+        btn.disabled = true;
+        statusEl.textContent = "Demo: user would be redirected to TikTok OAuth consent screen, then returned with an authorization code.";
+        setTimeout(() => { btn.disabled = false; }, 800);
+      });
+    </script>
+  </div>
+
+  <div class="row">
+    <a class="btn secondary" href="/">Back to home</a>
+    <a class="btn" href="/upload.html" style="background:#111;color:#fff;">Go to upload request</a>
+  </div>
+
+  <footer>
+    <a href="/terms.html">Terms of Service</a> ·
+    <a href="/privacy.html">Privacy Policy</a>
+  </footer>
+</body>
+</html>

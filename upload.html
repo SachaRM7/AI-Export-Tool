@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Upload request</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 40px; max-width: 900px; line-height: 1.5; }
+    .muted { color:#555; }
+    .box { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 16px 0; }
+    label { display:block; margin: 10px 0 6px; font-weight: 600; }
+    input, textarea { width:100%; padding: 10px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; }
+    textarea { min-height: 90px; }
+    button { padding: 10px 14px; border-radius: 10px; border: 1px solid #111; background:#111; color:#fff; cursor:pointer; }
+    button:disabled { opacity:.55; cursor:not-allowed; }
+    footer { margin-top: 26px; border-top: 1px solid #eee; padding-top: 14px; font-size: 14px; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; }
+    a.btn { display:inline-block; padding: 10px 14px; border-radius: 10px; border: 1px solid #111; text-decoration:none; }
+    a.btn.secondary { background:#fff; }
+    .note { font-size: 14px; }
+    code { background:#f6f6f6; padding:2px 6px; border-radius:6px; }
+  </style>
+</head>
+<body>
+  <h1>Upload request</h1>
+  <p class="muted">
+    The user selects a video and requests an upload. After upload, the user reviews and completes publishing inside TikTok.
+    The service does not auto-publish without user approval.
+  </p>
+
+  <div class="box">
+    <h2>Video details</h2>
+
+    <label for="videoUrl">Video URL (where the file is hosted)</label>
+    <input id="videoUrl" placeholder="https://your-domain.com/videos/video-001.mp4" />
+
+    <label for="caption">Caption (optional)</label>
+    <textarea id="caption" placeholder="Short caption... (user can edit before publishing)"></textarea>
+
+    <label for="webhook">Optional: n8n webhook URL (for demo/testing)</label>
+    <input id="webhook" placeholder="https://YOUR-N8N-DOMAIN/webhook/...." />
+
+    <label for="secret">Optional: webhook secret header value</label>
+    <input id="secret" placeholder="e.g. mysecret123" />
+
+    <p class="note muted" style="margin-top:10px;">
+      In production, this page would call your backend (e.g., n8n) which then calls TikTok Content Posting API.
+      Without audit, uploads may require review/private mode per TikTok policies.
+    </p>
+
+    <button id="submitBtn">Submit upload request</button>
+    <p id="status" class="muted" style="margin-top:10px;"></p>
+  </div>
+
+  <div class="row">
+    <a class="btn secondary" href="/">Back to home</a>
+    <a class="btn secondary" href="/connect.html">Back to connect</a>
+  </div>
+
+  <footer>
+    <a href="/terms.html">Terms of Service</a> ·
+    <a href="/privacy.html">Privacy Policy</a>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('submitBtn');
+    const statusEl = document.getElementById('status');
+
+    btn.addEventListener('click', async () => {
+      const videoUrl = document.getElementById('videoUrl').value.trim();
+      const caption = document.getElementById('caption').value.trim();
+      const webhook = document.getElementById('webhook').value.trim();
+      const secret = document.getElementById('secret').value.trim();
+
+      if (!videoUrl) { statusEl.textContent = "Please provide a Video URL."; return; }
+
+      // If no webhook is provided, we keep this as a pure UI demo.
+      if (!webhook) {
+        statusEl.textContent = "Demo: upload request captured. In production, this would call the backend to upload to TikTok for user review.";
+        return;
+      }
+
+      btn.disabled = true;
+      statusEl.textContent = "Sending request to backend...";
+
+      try {
+        const headers = { "Content-Type": "application/json" };
+        if (secret) headers["X-Webhook-Secret"] = secret;
+
+        const res = await fetch(webhook, {
+          method: "POST",
+          headers,
+          body: JSON.stringify({
+            video_url: videoUrl,
+            caption: caption,
+            source: "web-demo"
+          })
+        });
+
+        const text = await res.text();
+        statusEl.textContent = `Backend response: ${res.status} ${res.statusText} — ${text.slice(0, 200)}`;
+      } catch (e) {
+        statusEl.textContent = `Error: ${e.message}`;
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
